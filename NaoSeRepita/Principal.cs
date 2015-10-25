@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace NaoSeRepita
 {
-    public partial class Principal : Form
+    public partial class Principal : WindowBase
     {
         #region TIPOS_MUSICAS
         private const string TIPO_MP3 = ".mp3";
