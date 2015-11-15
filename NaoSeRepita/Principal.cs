@@ -141,11 +141,29 @@ namespace NaoSeRepita
         /// </summary>
         private void MudarMusica()
         {
+            if (ListagemArquivos.Count == 0 && !string.IsNullOrEmpty(CaminhoDiretorio))
+                foreach (string arquivo in Directory.EnumerateFiles(CaminhoDiretorio))
+                    if (TipoValido(arquivo))
+                        ListagemArquivos.Add(Path.GetFileName(arquivo));
+
             int indice = new Random().Next(0, ListagemArquivos.Count - 1);
             plyPrincipal.URL = CaminhoDiretorio + "/" + ListagemArquivos[indice];
             ListagemArquivos.RemoveAt(indice);
             RefreshListBox();
             Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
+        }
+
+        /// <summary>
+        /// Lê a quantidade de músicas na listagem e a insere no label
+        /// </summary>
+        private void RecarregarLabelQuantidade()
+        {
+            lblQuantidade.Text = ListagemArquivos.Count.ToString();
+        }
+
+        private void TratarListagemVazia()
+        {
+
         }
 
         /// <summary>
@@ -179,7 +197,7 @@ namespace NaoSeRepita
         {
             lbxMusicas.DataSource = null;
             lbxMusicas.DataSource = ListagemArquivos;
-            ///TODO: Criar contador de quantidade de músicas na tela e atualizar o valor aqui
+            RecarregarLabelQuantidade();
         }
 
         /// <summary>
@@ -191,6 +209,16 @@ namespace NaoSeRepita
             CaminhoDiretorio = string.Empty;
             Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
             RefreshListBox();
+        }
+
+        /// <summary>
+        /// Executa o próximo áudio
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnProxima_Click(object sender, EventArgs e)
+        {
+            MudarMusica();
         }
     }
 }
