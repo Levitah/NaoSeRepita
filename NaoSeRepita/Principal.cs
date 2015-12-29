@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -130,9 +131,9 @@ namespace NaoSeRepita
                 }
             }
 
-            catch
+            catch (COMException comException) //Mídia inválida
             {
-                //Do nothing
+                
             }
         }
 
@@ -181,13 +182,15 @@ namespace NaoSeRepita
         }
 
         /// <summary>
-        /// Caso ocorra um erro ao executar o arquivo, passa a próxima música
+        /// Caso ocorra um erro ao executar o arquivo. Encerra a execução dos arquivos, para evitar que fique eternamente etentando executar o próximo arquivo
+        /// nos casos de dispositivo de áudio inexistente (quando o fone de ouvido é desconectado e não há outro dispositivo de saída de áudio, por exemplo).
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void plyPrincipal_MediaError(object sender, AxWMPLib._WMPOCXEvents_MediaErrorEvent e)
         {
-            MudarMusica();
+            MessageBox.Show("Mídia inválida ou impossível de executar. Verifique dispositivos de saída de áudio.", "Não se Repita - Erro", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+            plyPrincipal.Ctlcontrols.stop();
         }
 
         /// <summary>
