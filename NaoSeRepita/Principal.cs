@@ -33,6 +33,7 @@ namespace NaoSeRepita
         public Principal()
         {
             InitializeComponent();
+            lblNomeArquivo.Text = string.Empty;
             PrimeiraVezPassandoFimMusica = true;
             plyPrincipal.PlayStateChange += plyPrincipal_PlayStateChange;
             Configuracoes = new Configuracoes();
@@ -149,6 +150,7 @@ namespace NaoSeRepita
 
             int indice = new Random().Next(0, ListagemArquivos.Count - 1);
             plyPrincipal.URL = CaminhoDiretorio + "/" + ListagemArquivos[indice];
+            lblNomeArquivo.Text = ListagemArquivos[indice];
             ListagemArquivos.RemoveAt(indice);
             RefreshListBox();
             Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
