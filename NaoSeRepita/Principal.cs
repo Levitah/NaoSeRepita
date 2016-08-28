@@ -24,6 +24,7 @@ namespace NaoSeRepita
         private string CaminhoDiretorio { get; set; }
         private Configuracoes Configuracoes { get; set; }
         private List<string> ListagemArquivos = new List<string>();
+        private const string INFORMACAO_EM_BRANCO = "--------------------";
 
         //Variável utilizada para evitar que o MudarMusica seja executado duas vezes
         //seguidas, pois o evento plyPrincipal_PlayStateChange é chamado duas vezes
@@ -41,6 +42,16 @@ namespace NaoSeRepita
             CaminhoDiretorio = Configuracoes.DiretorioMusicas();
             if (ListagemArquivos.Count > 0)
                 RefreshListBox();
+
+            PreencherSeEmBranco(lblMusicaArquivo);
+            PreencherSeEmBranco(lblMusicaNome);
+            PreencherSeEmBranco(lblMusicaAlbum);
+            PreencherSeEmBranco(lblMusicaArtista);
+            PreencherSeEmBranco(lblMusicaAno);
+            PreencherSeEmBranco(lblMusicaDuracao);
+
+            using (StreamReader reader = new StreamReader("images/blank_cd_case.jpg"))
+                pbxAlbumArt.Image = Image.FromStream(reader.BaseStream);
         }
 
         /// <summary>
@@ -149,11 +160,51 @@ namespace NaoSeRepita
                         ListagemArquivos.Add(Path.GetFileName(arquivo));
 
             int indice = new Random().Next(0, ListagemArquivos.Count - 1);
-            plyPrincipal.URL = CaminhoDiretorio + "/" + ListagemArquivos[indice];
+            string caminhoArquivo = CaminhoDiretorio + "/" + ListagemArquivos[indice];
+            plyPrincipal.URL = caminhoArquivo;
+            ObterInfoMusica(caminhoArquivo);
             lblNomeArquivo.Text = ListagemArquivos[indice];
+            this.Text = ListagemArquivos[indice];
             ListagemArquivos.RemoveAt(indice);
             RefreshListBox();
             Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
+        }
+
+        /// <summary>
+        /// Obtém informações da música
+        /// </summary>
+        private void ObterInfoMusica(string caminhoArquivo)
+        {
+            TagLib.File file = TagLib.File.Create(caminhoArquivo);
+
+            lblMusicaArquivo.Text = Path.GetFileName(file.Name);
+            lblMusicaNome.Text = file.Tag.Title;
+            lblMusicaAlbum.Text = file.Tag.Album;
+            lblMusicaArtista.Text = file.Tag.FirstAlbumArtist;
+            if (file.Tag.Year > 0)
+                lblMusicaAno.Text = file.Tag.Year.ToString();
+            lblMusicaDuracao.Text = file.Properties.Duration.ToString(@"hh\:mm\:ss");
+
+            PreencherSeEmBranco(lblMusicaNome);
+            PreencherSeEmBranco(lblMusicaAlbum);
+            PreencherSeEmBranco(lblMusicaArtista);
+            PreencherSeEmBranco(lblMusicaAno);
+
+            if (file.Tag.Pictures.FirstOrDefault() != null)
+                using (MemoryStream ms = new MemoryStream(file.Tag.Pictures.FirstOrDefault().Data.Data))
+                    pbxAlbumArt.Image = Image.FromStream(ms);
+            else
+                using (StreamReader reader = new StreamReader("images/blank_cd_case.jpg"))
+                    pbxAlbumArt.Image = Image.FromStream(reader.BaseStream);
+        }
+
+        /// <summary>
+        /// Preenche o label se estiver em branco
+        /// </summary>
+        public void PreencherSeEmBranco(Label label)
+        {
+            if (string.IsNullOrEmpty(label.Text))
+                label.Text = INFORMACAO_EM_BRANCO;
         }
 
         /// <summary>
