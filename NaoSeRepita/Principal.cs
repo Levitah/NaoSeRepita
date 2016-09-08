@@ -25,6 +25,7 @@ namespace NaoSeRepita
         private Configuracoes Configuracoes { get; set; }
         private List<string> ListagemArquivos = new List<string>();
         private const string INFORMACAO_EM_BRANCO = "--------------------";
+        private const string IMAGEM_ALBUM_EM_BRANCO = "images/blank_cd_case.jpg";
 
         //Variável utilizada para evitar que o MudarMusica seja executado duas vezes
         //seguidas, pois o evento plyPrincipal_PlayStateChange é chamado duas vezes
@@ -50,7 +51,7 @@ namespace NaoSeRepita
             PreencherSeEmBranco(lblMusicaAno);
             PreencherSeEmBranco(lblMusicaDuracao);
 
-            using (StreamReader reader = new StreamReader("images/blank_cd_case.jpg"))
+            using (StreamReader reader = new StreamReader(IMAGEM_ALBUM_EM_BRANCO))
                 pbxAlbumArt.Image = Image.FromStream(reader.BaseStream);
         }
 
@@ -175,27 +176,30 @@ namespace NaoSeRepita
         /// </summary>
         private void ObterInfoMusica(string caminhoArquivo)
         {
-            TagLib.File file = TagLib.File.Create(caminhoArquivo);
+            if (File.Exists(caminhoArquivo))
+            {
+                TagLib.File file = TagLib.File.Create(caminhoArquivo);
 
-            lblMusicaArquivo.Text = Path.GetFileName(file.Name);
-            lblMusicaNome.Text = file.Tag.Title;
-            lblMusicaAlbum.Text = file.Tag.Album;
-            lblMusicaArtista.Text = file.Tag.FirstAlbumArtist;
-            if (file.Tag.Year > 0)
-                lblMusicaAno.Text = file.Tag.Year.ToString();
-            lblMusicaDuracao.Text = file.Properties.Duration.ToString(@"hh\:mm\:ss");
+                lblMusicaArquivo.Text = Path.GetFileName(file.Name);
+                lblMusicaNome.Text = file.Tag.Title;
+                lblMusicaAlbum.Text = file.Tag.Album;
+                lblMusicaArtista.Text = file.Tag.FirstAlbumArtist;
+                if (file.Tag.Year > 0)
+                    lblMusicaAno.Text = file.Tag.Year.ToString();
+                lblMusicaDuracao.Text = file.Properties.Duration.ToString(@"hh\:mm\:ss");
 
-            PreencherSeEmBranco(lblMusicaNome);
-            PreencherSeEmBranco(lblMusicaAlbum);
-            PreencherSeEmBranco(lblMusicaArtista);
-            PreencherSeEmBranco(lblMusicaAno);
+                PreencherSeEmBranco(lblMusicaNome);
+                PreencherSeEmBranco(lblMusicaAlbum);
+                PreencherSeEmBranco(lblMusicaArtista);
+                PreencherSeEmBranco(lblMusicaAno);
 
-            if (file.Tag.Pictures.FirstOrDefault() != null)
-                using (MemoryStream ms = new MemoryStream(file.Tag.Pictures.FirstOrDefault().Data.Data))
-                    pbxAlbumArt.Image = Image.FromStream(ms);
-            else
-                using (StreamReader reader = new StreamReader("images/blank_cd_case.jpg"))
-                    pbxAlbumArt.Image = Image.FromStream(reader.BaseStream);
+                if (file.Tag.Pictures.FirstOrDefault() != null)
+                    using (MemoryStream ms = new MemoryStream(file.Tag.Pictures.FirstOrDefault().Data.Data))
+                        pbxAlbumArt.Image = Image.FromStream(ms);
+                else
+                    using (StreamReader reader = new StreamReader(IMAGEM_ALBUM_EM_BRANCO))
+                        pbxAlbumArt.Image = Image.FromStream(reader.BaseStream);
+            }
         }
 
         /// <summary>
@@ -227,11 +231,11 @@ namespace NaoSeRepita
         /// <returns>True se o arquivo tiver extensão válida, false se não tiver</returns>
         private bool TipoValido(string arquivo)
         {
-            return arquivo.EndsWith(TIPO_MP3) ||
-                    arquivo.EndsWith(TIPO_WMA) ||
-                    arquivo.EndsWith(TIPO_MP4) ||
-                    arquivo.EndsWith(TIPO_M4A) ||
-                    arquivo.EndsWith(TIPO_MIDI);
+            return arquivo.ToLower().EndsWith(TIPO_MP3.ToLower()) ||
+                    arquivo.ToLower().EndsWith(TIPO_WMA.ToLower()) ||
+                    arquivo.ToLower().EndsWith(TIPO_MP4.ToLower()) ||
+                    arquivo.ToLower().EndsWith(TIPO_M4A.ToLower()) ||
+                    arquivo.ToLower().EndsWith(TIPO_MIDI.ToLower());
         }
 
         /// <summary>

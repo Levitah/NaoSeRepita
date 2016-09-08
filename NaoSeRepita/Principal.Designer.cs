@@ -59,10 +59,10 @@
             // plyPrincipal
             // 
             this.plyPrincipal.Enabled = true;
-            this.plyPrincipal.Location = new System.Drawing.Point(15, 65);
+            this.plyPrincipal.Location = new System.Drawing.Point(221, 221);
             this.plyPrincipal.Name = "plyPrincipal";
             this.plyPrincipal.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("plyPrincipal.OcxState")));
-            this.plyPrincipal.Size = new System.Drawing.Size(884, 61);
+            this.plyPrincipal.Size = new System.Drawing.Size(678, 61);
             this.plyPrincipal.TabIndex = 4;
             this.plyPrincipal.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.plyPrincipal_PlayStateChange);
             this.plyPrincipal.MediaError += new AxWMPLib._WMPOCXEvents_MediaErrorEventHandler(this.plyPrincipal_MediaError);
@@ -97,7 +97,7 @@
             // 
             // btnProxima
             // 
-            this.btnProxima.Location = new System.Drawing.Point(905, 92);
+            this.btnProxima.Location = new System.Drawing.Point(871, 441);
             this.btnProxima.Name = "btnProxima";
             this.btnProxima.Size = new System.Drawing.Size(28, 23);
             this.btnProxima.TabIndex = 2;
@@ -144,9 +144,9 @@
             // 
             // pbxAlbumArt
             // 
-            this.pbxAlbumArt.Location = new System.Drawing.Point(15, 132);
+            this.pbxAlbumArt.Location = new System.Drawing.Point(15, 70);
             this.pbxAlbumArt.Name = "pbxAlbumArt";
-            this.pbxAlbumArt.Size = new System.Drawing.Size(150, 150);
+            this.pbxAlbumArt.Size = new System.Drawing.Size(200, 200);
             this.pbxAlbumArt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbxAlbumArt.TabIndex = 9;
             this.pbxAlbumArt.TabStop = false;
@@ -154,7 +154,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(176, 132);
+            this.label3.Location = new System.Drawing.Point(228, 70);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 13);
             this.label3.TabIndex = 10;
@@ -163,7 +163,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(178, 157);
+            this.label4.Location = new System.Drawing.Point(230, 95);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(44, 13);
             this.label4.TabIndex = 10;
@@ -172,7 +172,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(183, 182);
+            this.label5.Location = new System.Drawing.Point(235, 120);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(39, 13);
             this.label5.TabIndex = 10;
@@ -181,7 +181,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(171, 257);
+            this.label6.Location = new System.Drawing.Point(223, 195);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(51, 13);
             this.label6.TabIndex = 11;
@@ -190,7 +190,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(193, 232);
+            this.label7.Location = new System.Drawing.Point(245, 170);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 13);
             this.label7.TabIndex = 12;
@@ -199,7 +199,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(183, 207);
+            this.label8.Location = new System.Drawing.Point(235, 145);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(39, 13);
             this.label8.TabIndex = 13;
@@ -208,7 +208,7 @@
             // lblMusicaArquivo
             // 
             this.lblMusicaArquivo.AutoSize = true;
-            this.lblMusicaArquivo.Location = new System.Drawing.Point(228, 132);
+            this.lblMusicaArquivo.Location = new System.Drawing.Point(280, 70);
             this.lblMusicaArquivo.Name = "lblMusicaArquivo";
             this.lblMusicaArquivo.Size = new System.Drawing.Size(0, 13);
             this.lblMusicaArquivo.TabIndex = 14;
@@ -216,7 +216,7 @@
             // lblMusicaNome
             // 
             this.lblMusicaNome.AutoSize = true;
-            this.lblMusicaNome.Location = new System.Drawing.Point(228, 157);
+            this.lblMusicaNome.Location = new System.Drawing.Point(280, 95);
             this.lblMusicaNome.Name = "lblMusicaNome";
             this.lblMusicaNome.Size = new System.Drawing.Size(0, 13);
             this.lblMusicaNome.TabIndex = 14;
@@ -224,7 +224,7 @@
             // lblMusicaAlbum
             // 
             this.lblMusicaAlbum.AutoSize = true;
-            this.lblMusicaAlbum.Location = new System.Drawing.Point(228, 182);
+            this.lblMusicaAlbum.Location = new System.Drawing.Point(280, 120);
             this.lblMusicaAlbum.Name = "lblMusicaAlbum";
             this.lblMusicaAlbum.Size = new System.Drawing.Size(0, 13);
             this.lblMusicaAlbum.TabIndex = 14;
@@ -232,7 +232,7 @@
             // lblMusicaArtista
             // 
             this.lblMusicaArtista.AutoSize = true;
-            this.lblMusicaArtista.Location = new System.Drawing.Point(228, 207);
+            this.lblMusicaArtista.Location = new System.Drawing.Point(280, 145);
             this.lblMusicaArtista.Name = "lblMusicaArtista";
             this.lblMusicaArtista.Size = new System.Drawing.Size(0, 13);
             this.lblMusicaArtista.TabIndex = 14;
@@ -240,7 +240,7 @@
             // lblMusicaAno
             // 
             this.lblMusicaAno.AutoSize = true;
-            this.lblMusicaAno.Location = new System.Drawing.Point(228, 232);
+            this.lblMusicaAno.Location = new System.Drawing.Point(280, 170);
             this.lblMusicaAno.Name = "lblMusicaAno";
             this.lblMusicaAno.Size = new System.Drawing.Size(0, 13);
             this.lblMusicaAno.TabIndex = 14;
@@ -248,7 +248,7 @@
             // lblMusicaDuracao
             // 
             this.lblMusicaDuracao.AutoSize = true;
-            this.lblMusicaDuracao.Location = new System.Drawing.Point(228, 257);
+            this.lblMusicaDuracao.Location = new System.Drawing.Point(280, 195);
             this.lblMusicaDuracao.Name = "lblMusicaDuracao";
             this.lblMusicaDuracao.Size = new System.Drawing.Size(0, 13);
             this.lblMusicaDuracao.TabIndex = 14;
