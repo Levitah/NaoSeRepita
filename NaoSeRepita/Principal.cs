@@ -70,16 +70,7 @@ namespace NaoSeRepita
 
             else
             {
-                if (fbdDiretorioMusicas.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
-                {
-                    CaminhoDiretorio = fbdDiretorioMusicas.SelectedPath;
-                    foreach (string arquivo in Directory.EnumerateFiles(CaminhoDiretorio))
-                        if (TipoValido(arquivo))
-                            ListagemArquivos.Add(Path.GetFileName(arquivo));
-
-                    Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
-                    MudarMusica();
-                }
+                CarregarListagem();
             }
         }
 
@@ -265,10 +256,7 @@ namespace NaoSeRepita
         /// </summary>
         private void btnReset_Click(object sender, EventArgs e)
         {
-            ListagemArquivos = new List<string>();
-            CaminhoDiretorio = string.Empty;
-            Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
-            RefreshListBox();
+            ResetarListagem();
         }
 
         /// <summary>
@@ -279,6 +267,64 @@ namespace NaoSeRepita
         private void btnProxima_Click(object sender, EventArgs e)
         {
             MudarMusica();
+        }
+
+        private void ResetarListagem()
+        {
+            ListagemArquivos = new List<string>();
+            CaminhoDiretorio = string.Empty;
+            Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
+            RefreshListBox();
+        }
+
+        private void CarregarListagem()
+        {
+            CarregarListagem(true);
+        }
+
+        private void CarregarListagem(bool autoplay)
+        {
+            if (fbdDiretorioMusicas.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+            {
+                CaminhoDiretorio = fbdDiretorioMusicas.SelectedPath;
+                foreach (string arquivo in Directory.EnumerateFiles(CaminhoDiretorio))
+                    if (TipoValido(arquivo))
+                        ListagemArquivos.Add(Path.GetFileName(arquivo));
+
+                Configuracoes.SalvarListagemAtual(CaminhoDiretorio, ListagemArquivos);
+                MudarMusica();
+            }
+        }
+
+        private void carregarPorTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            List<string> tags = new List<string>();
+
+            foreach (string arquivo in Directory.EnumerateFiles(CaminhoDiretorio))
+                foreach (string tag in TagLib.File.Create(arquivo).Tag.Comment.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                    if (!tags.Contains(tag.ToUpperInvariant()))
+                        tags.Add(tag.ToUpperInvariant());
+
+            List<string> tagsSelecionadas = new List<string>();
+            TagSelection tagSelectionWindow = new TagSelection(tags);
+            tagSelectionWindow.ShowDialog();
+            tagsSelecionadas = tagSelectionWindow.TagList;
+
+            ListagemArquivos = new List<string>();
+
+            foreach (string arquivo in Directory.EnumerateFiles(CaminhoDiretorio))
+                if (MusicaPossuiTag(arquivo, tagsSelecionadas))
+                    ListagemArquivos.Add(Path.GetFileName(arquivo));
+            MudarMusica();
+        }
+
+        private bool MusicaPossuiTag(string arquivo, List<string> tagsSelecionadas)
+        {
+            using (TagLib.File tagLib = TagLib.File.Create(arquivo))
+                foreach (string tag in tagLib.Tag.Comment.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries))
+                    if (tagsSelecionadas.Contains(tag.ToUpperInvariant()))
+                        return true;
+            return false;
         }
     }
 }
